@@ -99,6 +99,43 @@
 
 <p><strong>Nuevo valor de x:</strong> {{ nuevo_x }}</p>
 
+<hr>
+
+<h2>Tabla de iteraciones</h2>
+
+<table border="1" cellpadding="10">
+
+    <tr>
+        <th>Iteración</th>
+        <th>Valor de x</th>
+        <th>f(x)</th>
+        <th>f'(x)</th>
+        <th>Error</th>
+        <th>Explicación</th>
+    </tr>
+
+    {% for fila in tabla %}
+
+    <tr>
+        <td>{{ fila.0 }}</td>
+        <td>{{ fila.1 }}</td>
+        <td>{{ fila.2 }}</td>
+        <td>{{ fila.3 }}</td>
+        <td>{{ fila.4 }}</td>
+        <td>{{ fila.5 }}</td>
+    </tr>
+
+    {% endfor %}
+
+</table>
+<br>
+
+<h2>Resultado Final</h2>
+
+<p><strong>Raíz aproximada:</strong> {{ raiz }}</p>
+
+<p><strong>Estado:</strong> {{ mensaje }}</p>
+
     </div>
 
 </body>
