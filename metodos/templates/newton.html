@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Newton-Raphson</title>
+
+    <style>
+
+        body{
+            font-family: Arial;
+            background-color: #f2f2f2;
+        }
+
+        .contenedor{
+            width: 600px;
+            background: white;
+            margin: 40px auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
+        }
+
+        h1{
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        label{
+            font-weight: bold;
+        }
+
+        input{
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 20px;
+        }
+
+        button{
+            width: 100%;
+            padding: 15px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+        }
+
+        button:hover{
+            background-color: #2980b9;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="contenedor">
+
+        <h1>Método Newton-Raphson</h1>
+
+        <form method="POST">
+
+    {% csrf_token %}
+
+            <label>Función f(x)</label>
+            <input type="text" name="funcion" placeholder="Ejemplo: x**2 - 4">
+
+            <label>Valor inicial x0</label>
+            <input type="number" step="any" name="x0">
+
+            <label>Tolerancia</label>
+            <input type="number" step="any" name="tolerancia">
+
+            <label>Máximo de iteraciones</label>
+            <input type="number" name="iteraciones">
+
+            <button type="submit">
+                Calcular
+            </button>
+
+        </form>
+        <hr>
+
+<h2>Datos ingresados</h2>
+
+<p><strong>Función:</strong> {{ funcion }}</p>
+
+<p><strong>x0:</strong> {{ x0 }}</p>
+
+<p><strong>Tolerancia:</strong> {{ tolerancia }}</p>
+
+<p><strong>Iteraciones:</strong> {{ iteraciones }}</p>
+
+<p><strong>Resultado de f(x0):</strong> {{ resultado }}</p>
+
+<p><strong>Derivada:</strong> {{ derivada }}</p>
+
+<p><strong>Nuevo valor de x:</strong> {{ nuevo_x }}</p>
+
+    </div>
+
+</body>
+</html>
