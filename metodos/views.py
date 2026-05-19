@@ -1,8 +1,7 @@
 from django.shortcuts import render
-
-from sympy import symbols
-from sympy import sympify
-from sympy import diff
+from sympy import symbols, sympify, diff, lambdify
+import matplotlib.pyplot as plt
+import numpy as np
 
 def inicio(request):
     return render(request, 'inicio.html')
@@ -83,6 +82,29 @@ def newton(request):
                 'Nueva aproximación calculada'
             ])
             
+            x_vals = np.linspace(-10, 10, 400)
+
+            funcion_numpy = lambdify(x, f, "numpy")
+
+            y_vals = funcion_numpy(x_vals)
+
+            plt.figure(figsize=(8,5))
+
+            plt.axhline(0)
+            plt.axvline(0)
+
+            plt.plot(x_vals, y_vals)
+
+            plt.title("Método Newton-Raphson")
+
+            plt.xlabel("x")
+            plt.ylabel("f(x)")
+
+            plt.grid(True)
+
+            plt.savefig('metodos/static/grafica.png')
+
+            plt.close()
 
         datos = {
             'funcion': funcion,
