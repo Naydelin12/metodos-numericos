@@ -60,6 +60,46 @@
 
         <h1>Método Newton-Raphson</h1>
 
+        <h2>¿Qué es el método Newton-Raphson?</h2>
+
+<p>
+El método Newton-Raphson es un método numérico utilizado para encontrar
+raíces aproximadas de ecuaciones matemáticas.
+</p>
+
+<p>
+El método utiliza derivadas para generar aproximaciones sucesivas
+hasta acercarse a la solución de la función.
+</p>
+
+<h3>Fórmula del método</h3>
+
+<p>
+x(n+1) = x(n) - f(x) / f'(x)
+</p>
+
+<h3>¿Qué significa cada dato?</h3>
+
+<p>
+<strong>Función:</strong>
+Es la ecuación matemática que se desea resolver.
+</p>
+
+<p>
+<strong>x0:</strong>
+Es el valor inicial desde donde comienza la aproximación.
+</p>
+
+<p>
+<strong>Tolerancia:</strong>
+Es el error máximo permitido para aceptar la solución.
+</p>
+
+<p>
+<strong>Iteraciones:</strong>
+Es la cantidad máxima de repeticiones que realizará el método.
+</p>
+
         <form method="POST">
 
     {% csrf_token %}
@@ -98,6 +138,93 @@
 <p><strong>Derivada:</strong> {{ derivada }}</p>
 
 <p><strong>Nuevo valor de x:</strong> {{ nuevo_x }}</p>
+
+<hr>
+
+<h2>Tabla de iteraciones</h2>
+
+<table border="1" cellpadding="10">
+
+    <tr>
+        <th>Iteración</th>
+        <th>Valor de x</th>
+        <th>f(x)</th>
+        <th>f'(x)</th>
+        <th>Error</th>
+        <th>Explicación</th>
+    </tr>
+
+    {% for fila in tabla %}
+
+    <tr>
+        <td>{{ fila.0 }}</td>
+        <td>{{ fila.1 }}</td>
+        <td>{{ fila.2 }}</td>
+        <td>{{ fila.3 }}</td>
+        <td>{{ fila.4 }}</td>
+        <td>{{ fila.5 }}</td>
+    </tr>
+
+    {% endfor %}
+
+</table>
+<br>
+
+<h2>Resultado Final</h2>
+
+<p><strong>Raíz aproximada:</strong> {{ raiz }}</p>
+
+<p><strong>Estado:</strong> {{ mensaje }}</p>
+
+<br>
+
+<h2>Gráfica de la función</h2>
+
+<img src="/static/grafica.png" width="700">
+
+<br><br>
+
+<h2>Interpretación del Método Newton-Raphson</h2>
+
+<p>
+El método Newton-Raphson es un método numérico utilizado para encontrar
+raíces aproximadas de una función matemática.
+</p>
+
+<p>
+El método utiliza derivadas y aproximaciones sucesivas para acercarse
+cada vez más a la raíz de la función.
+</p>
+
+<p>
+En este caso, la función ingresada fue:
+<strong>{{ funcion }}</strong>
+</p>
+
+<p>
+La raíz aproximada encontrada por el método fue:
+<strong>{{ raiz }}</strong>
+</p>
+
+<p>
+La tabla de iteraciones muestra cómo el método fue mejorando
+la aproximación en cada paso hasta cumplir la tolerancia establecida.
+</p>
+
+<p>
+El error disminuye progresivamente en cada iteración,
+lo que indica que el método está convergiendo correctamente.
+</p>
+
+<p>
+La gráfica representa el comportamiento de la función matemática.
+Los puntos donde la curva cruza el eje x representan las raíces de la función.
+</p>
+
+<p>
+La convergencia observada demuestra que el método Newton-Raphson
+es eficiente para aproximar soluciones de ecuaciones no lineales.
+</p>
 
     </div>
 
