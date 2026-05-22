@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Método Secante</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <style>
+        body{
+            font-family: Arial;
+            background-color: #f2f2f2;
+        }
+        .contenedor{
+            width: 700px;
+            background: white;
+            margin: 40px auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
+        }
+        h1{
+            text-align: center;
+            color: #2c3e50;
+        }
+        h2{
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+        }
+        label{
+            font-weight: bold;
+        }
+        input{
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+        button{
+            width: 100%;
+            padding: 15px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        button:hover{
+            background-color: #2980b9;
+        }
+        .formula{
+            background: #f0f7ff;
+            border-left: 4px solid #3498db;
+            padding: 15px 20px;
+            margin: 15px 0;
+            font-size: 18px;
+            text-align: center;
+        }
+        table{
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th{
+            background-color: #3498db;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        td{
+            padding: 8px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        tr:nth-child(even){
+            background-color: #f2f2f2;
+        }
+        .resultado{
+            background: #eaf4fb;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .volver{
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #3498db;
+            text-decoration: none;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="contenedor">
+
+        <h1>Método de la Secante</h1>
+
+        <h2>¿Qué es el método de la Secante?</h2>
+        <p>El método de la Secante es un método numérico utilizado para encontrar raíces aproximadas de ecuaciones matemáticas.</p>
+        <p>A diferencia de Newton-Raphson, <strong>no necesita la derivada</strong> de la función. Usa dos puntos iniciales para aproximarse a la solución mediante una línea secante.</p>
+
+        <h2>Fórmula del método</h2>
+        <div class="formula">
+            \[ x_{n+1} = x_n - f(x_n) \cdot \frac{x_n - x_{n-1}}{f(x_n) - f(x_{n-1})} \]
+        </div>
+
+        <h2>¿Qué significa cada dato?</h2>
+        <p><strong>Función:</strong> Es la ecuación matemática que se desea resolver.</p>
+        <p><strong>x0:</strong> Primer valor inicial para comenzar la aproximación.</p>
+        <p><strong>x1:</strong> Segundo valor inicial necesario para el método.</p>
+        <p><strong>Tolerancia:</strong> Es el error máximo permitido para aceptar la solución.</p>
+        <p><strong>Iteraciones:</strong> Es la cantidad máxima de repeticiones del método.</p>
+
+        <h2>Ingresar datos</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <label>Función f(x)</label>
+            <input type="text" name="funcion" placeholder="Ejemplo: x**2 - 4" value="{{ funcion }}">
+
+            <label>Valor inicial x0</label>
+            <input type="number" step="any" name="x0" value="{{ x0 }}">
+
+            <label>Valor inicial x1</label>
+            <input type="number" step="any" name="x1" value="{{ x1 }}">
+
+            <label>Tolerancia</label>
+            <input type="number" step="any" name="tolerancia" value="{{ tolerancia }}">
+
+            <label>Máximo de iteraciones</label>
+            <input type="number" name="iteraciones" value="{{ iteraciones_param }}">
+
+            <button type="submit">Calcular</button>
+        </form>
+
+        {% if tabla %}
+        <hr>
+        <h2>Tabla de iteraciones</h2>
+        <table>
+            <tr>
+                <th>Iteración</th>
+                <th>x0</th>
+                <th>x1</th>
+                <th>x2</th>
+                <th>f(x2)</th>
+                <th>Error</th>
+            </tr>
+            {% for fila in tabla %}
+            <tr>
+                <td>{{ fila.n }}</td>
+                <td>{{ fila.x0 }}</td>
+                <td>{{ fila.x1 }}</td>
+                <td>{{ fila.x2 }}</td>
+                <td>{{ fila.fx2 }}</td>
+                <td>{{ fila.error }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <div class="resultado">
+            <h2>Resultado Final</h2>
+            <p><strong>Raíz aproximada:</strong> {{ raiz }}</p>
+            <p><strong>Estado:</strong> {{ estado }}</p>
+        </div>
+
+        <h2>Gráfica de la función</h2>
+        <canvas id="grafica" width="640" height="400"></canvas>
+           <script>
+    const labels = {{ x_vals }};
+    const valores = {{ y_vals }};
+    const raiz = {{ raiz }};
+
+    new Chart(document.getElementById('grafica'), {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'f(x)',
+                data: valores,
+                borderColor: '#3498db',
+                borderWidth: 2,
+                pointRadius: 0,
+                fill: false,
+            }]
+        },
+        options: {
+            responsive: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Método de la Secante'
+                }
+            },
+            scales: {
+                x: {
+                    title: { display: true, text: 'x' }
+                },
+                y: {
+                    title: { display: true, text: 'f(x)' }
+                }
+            }
+        }
+    });
+</script>{% endif %}
+
+        <a href="/" class="volver">← Volver al inicio</a>
+
+    </div>
+</body>
+</html>
