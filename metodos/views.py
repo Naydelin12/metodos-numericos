@@ -116,7 +116,8 @@ def newton(request):
             'nuevo_x': nuevo_x,
             'tabla': tabla,
             'raiz': nuevo_x,
-            'mensaje': 'El método convergió correctamente'
+            'mensaje': 'El método convergió correctamente',
+            'mostrar_grafica': True,
         }
 
     return render(request, 'newton.html', datos)

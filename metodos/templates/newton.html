@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <title>Newton-Raphson</title>
 
+    <br>
+
+<a href="/" class="boton">
+    volver al inicio
+</a>
+
+<br><br>
+
     <style>
 
         body{
@@ -75,7 +83,23 @@ hasta acercarse a la solución de la función.
 <h3>Fórmula del método</h3>
 
 <p>
-x(n+1) = x(n) - f(x) / f'(x)
+<p style="font-size: 28px;">
+
+x<sub>n+1</sub> = x<sub>n</sub> -
+
+<span style="display: inline-block; vertical-align: middle; text-align: center;">
+
+    <span style="display: block; border-bottom: 2px solid black; padding: 2px;">
+        f(x<sub>n</sub>)
+    </span>
+
+    <span style="display: block; padding: 2px;">
+        f'(x<sub>n</sub>)
+    </span>
+
+</span>
+
+</p>
 </p>
 
 <h3>¿Qué significa cada dato?</h3>
@@ -170,6 +194,8 @@ Es la cantidad máxima de repeticiones que realizará el método.
 </table>
 <br>
 
+{% if tabla %}
+
 <h2>Resultado Final</h2>
 
 <p><strong>Raíz aproximada:</strong> {{ raiz }}</p>
@@ -226,7 +252,17 @@ La convergencia observada demuestra que el método Newton-Raphson
 es eficiente para aproximar soluciones de ecuaciones no lineales.
 </p>
 
+{% endif %}
+
     </div>
+
+    <br>
+
+<a href="/" class="boton">
+    volver al inicio
+</a>
+
+<br><br>
 
 </body>
 </html>
