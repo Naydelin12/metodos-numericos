@@ -206,7 +206,10 @@ Es la cantidad máxima de repeticiones que realizará el método.
 
 <h2>Gráfica de la función</h2>
 
-<img src="/static/grafica.png" width="700">
+{% if grafica %}
+    <h2>Gráfica</h2>
+    <img src="data:image/png;base64,{{ grafica }}" style="width:100%;">
+{% endif %}
 
 <br><br>
 
