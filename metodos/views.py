@@ -2,6 +2,8 @@ from django.shortcuts import render
 from sympy import symbols, sympify, diff, lambdify
 import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')
 
 def inicio(request):
     return render(request, 'inicio.html')
