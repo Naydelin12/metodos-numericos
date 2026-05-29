@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib
 matplotlib.use('Agg')
+import io
+import base64
 
 def inicio(request):
     return render(request, 'inicio.html')
@@ -104,8 +106,27 @@ def newton(request):
 
             plt.grid(True)
 
-            plt.savefig('metodos/static/grafica.png')
+            plt.close()
 
+            x_vals = np.linspace(-10, 10, 400)
+
+            funcion_numpy = lambdify(x, f, "numpy")
+            y_vals = funcion_numpy(x_vals)
+
+            plt.figure(figsize=(8,5))
+            plt.axhline(0)
+            plt.axvline(0)
+            plt.plot(x_vals, y_vals)
+            plt.title("Método Newton-Raphson")
+            plt.grid(True)
+
+            buffer = io.BytesIO()
+            plt.savefig(buffer, format='png')
+            buffer.seek(0)
+
+            grafica = base64.b64encode(buffer.getvalue()).decode('utf-8')
+
+            buffer.close()
             plt.close()
 
         datos = {
@@ -120,6 +141,7 @@ def newton(request):
             'raiz': nuevo_x,
             'mensaje': 'El método convergió correctamente',
             'mostrar_grafica': True,
+            'grafica': grafica,
         }
 
     return render(request, 'newton.html', datos)
